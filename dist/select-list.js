@@ -46,7 +46,8 @@ var SelectList = function (_Component) {
             var _this$props = _this.props,
                 selected = _this$props.selected,
                 onSelectedChanged = _this$props.onSelectedChanged,
-                disabled = _this$props.disabled;
+                disabled = _this$props.disabled,
+                valueKey = _this$props.valueKey;
 
 
             if (disabled) {
@@ -54,9 +55,9 @@ var SelectList = function (_Component) {
             }
 
             if (checked) {
-                onSelectedChanged([].concat(_toConsumableArray(selected), [option.value]));
+                onSelectedChanged([].concat(_toConsumableArray(selected), [option[valueKey] || option.value]));
             } else {
-                var _index = selected.indexOf(option.value);
+                var _index = selected.indexOf(option[valueKey] || option.value);
                 var removed = [].concat(_toConsumableArray(selected.slice(0, _index)), _toConsumableArray(selected.slice(_index + 1)));
                 onSelectedChanged(removed);
             }
@@ -74,7 +75,9 @@ var SelectList = function (_Component) {
                 selected = _props.selected,
                 focusIndex = _props.focusIndex,
                 onClick = _props.onClick,
-                disabled = _props.disabled;
+                disabled = _props.disabled,
+                labelKey = _props.labelKey,
+                valueKey = _props.valueKey;
 
 
             return options.map(function (o, i) {
@@ -90,7 +93,7 @@ var SelectList = function (_Component) {
                         onSelectionChanged: function onSelectionChanged(c) {
                             return _this2.handleSelectionChanged(o, c);
                         },
-                        checked: selected.includes(o.value),
+                        checked: selected.includes(o[valueKey] || o.value),
                         onClick: function (_onClick) {
                             function onClick(_x) {
                                 return _onClick.apply(this, arguments);
@@ -105,7 +108,9 @@ var SelectList = function (_Component) {
                             return onClick(e, i);
                         }),
                         ItemRenderer: ItemRenderer,
-                        disabled: disabled
+                        disabled: disabled,
+                        labelKey: labelKey,
+                        valueKey: valueKey
                     })
                 );
             });

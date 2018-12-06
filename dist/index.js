@@ -80,17 +80,19 @@ var MultiSelect = function (_Component) {
         value: function getSelectedText() {
             var _props = this.props,
                 options = _props.options,
-                selected = _props.selected;
+                selected = _props.selected,
+                labelKey = _props.labelKey,
+                valueKey = _props.valueKey;
 
 
             var selectedOptions = selected.map(function (s) {
                 return options.find(function (o) {
-                    return o.value === s;
+                    return (o[valueKey] || o.value) === s;
                 });
             });
-
+            console.log(selected);
             var selectedLabels = selectedOptions.map(function (s) {
-                return s ? s.label : "";
+                return s ? s[labelKey] || s.label : "";
             });
 
             return selectedLabels.join(", ");
@@ -146,7 +148,9 @@ var MultiSelect = function (_Component) {
                 filterOptions = _props3.filterOptions,
                 shouldToggleOnHover = _props3.shouldToggleOnHover,
                 hasSelectAll = _props3.hasSelectAll,
-                overrideStrings = _props3.overrideStrings;
+                overrideStrings = _props3.overrideStrings,
+                labelKey = _props3.labelKey,
+                valueKey = _props3.valueKey;
 
 
             return _react2.default.createElement(
@@ -168,7 +172,9 @@ var MultiSelect = function (_Component) {
                             disabled: disabled,
                             disableSearch: disableSearch,
                             filterOptions: filterOptions,
-                            overrideStrings: overrideStrings
+                            overrideStrings: overrideStrings,
+                            labelKey: labelKey,
+                            valueKey: valueKey
                         },
                         disabled: disabled
                     },

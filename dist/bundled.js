@@ -146,7 +146,9 @@ var DefaultItemRenderer = function (_Component) {
                 checked = _props.checked,
                 option = _props.option,
                 onClick = _props.onClick,
-                disabled = _props.disabled;
+                disabled = _props.disabled,
+                labelKey = _props.labelKey,
+                valueKey = _props.valueKey;
 
 
             var style = _extends({}, styles.label, disabled ? styles.labelDisabled : undefined);
@@ -166,7 +168,7 @@ var DefaultItemRenderer = function (_Component) {
                 _react2.default.createElement(
                     "span",
                     { style: style },
-                    option.label
+                    option[labelKey] || option.label
                 )
             );
         }
@@ -248,12 +250,15 @@ var SelectItem = function (_Component2) {
         value: function render() {
             var _this3 = this;
 
+            console.log(this.props);
             var _props2 = this.props,
                 ItemRenderer = _props2.ItemRenderer,
                 option = _props2.option,
                 checked = _props2.checked,
                 focused = _props2.focused,
-                disabled = _props2.disabled;
+                disabled = _props2.disabled,
+                labelKey = _props2.labelKey,
+                valueKey = _props2.valueKey;
             var hovered = this.state.hovered;
 
 
@@ -283,7 +288,9 @@ var SelectItem = function (_Component2) {
                     option: option,
                     checked: checked,
                     onClick: this.handleClick,
-                    disabled: disabled
+                    disabled: disabled,
+                    labelKey: labelKey,
+                    valueKey: valueKey
                 })
             );
         }
@@ -851,7 +858,9 @@ var SelectPanel = function (_Component) {
                 disabled = _props3.disabled,
                 disableSearch = _props3.disableSearch,
                 hasSelectAll = _props3.hasSelectAll,
-                overrideStrings = _props3.overrideStrings;
+                overrideStrings = _props3.overrideStrings,
+                labelKey = _props3.labelKey,
+                valueKey = _props3.valueKey;
 
 
             var selectAllOption = {
@@ -894,7 +903,9 @@ var SelectPanel = function (_Component) {
                         return _this2.handleItemClicked(0);
                     },
                     ItemRenderer: ItemRenderer,
-                    disabled: disabled
+                    disabled: disabled,
+                    labelKey: labelKey,
+                    valueKey: valueKey
                 }),
                 _react2.default.createElement(_selectList2.default, _extends({}, this.props, {
                     options: this.filteredOptions(),
@@ -903,7 +914,9 @@ var SelectPanel = function (_Component) {
                         return _this2.handleItemClicked(index + 1);
                     },
                     ItemRenderer: ItemRenderer,
-                    disabled: disabled
+                    disabled: disabled,
+                    labelKey: labelKey,
+                    valueKey: valueKey
                 }))
             );
         }
@@ -1030,17 +1043,19 @@ var MultiSelect = function (_Component) {
         value: function getSelectedText() {
             var _props = this.props,
                 options = _props.options,
-                selected = _props.selected;
+                selected = _props.selected,
+                labelKey = _props.labelKey,
+                valueKey = _props.valueKey;
 
 
             var selectedOptions = selected.map(function (s) {
                 return options.find(function (o) {
-                    return o.value === s;
+                    return (o[valueKey] || o.value) === s;
                 });
             });
-
+            console.log(selected);
             var selectedLabels = selectedOptions.map(function (s) {
-                return s ? s.label : "";
+                return s ? s[labelKey] || s.label : "";
             });
 
             return selectedLabels.join(", ");
@@ -1096,7 +1111,9 @@ var MultiSelect = function (_Component) {
                 filterOptions = _props3.filterOptions,
                 shouldToggleOnHover = _props3.shouldToggleOnHover,
                 hasSelectAll = _props3.hasSelectAll,
-                overrideStrings = _props3.overrideStrings;
+                overrideStrings = _props3.overrideStrings,
+                labelKey = _props3.labelKey,
+                valueKey = _props3.valueKey;
 
 
             return _react2.default.createElement(
@@ -1118,7 +1135,9 @@ var MultiSelect = function (_Component) {
                             disabled: disabled,
                             disableSearch: disableSearch,
                             filterOptions: filterOptions,
-                            overrideStrings: overrideStrings
+                            overrideStrings: overrideStrings,
+                            labelKey: labelKey,
+                            valueKey: valueKey
                         },
                         disabled: disabled
                     },
@@ -1314,7 +1333,8 @@ var SelectList = function (_Component) {
             var _this$props = _this.props,
                 selected = _this$props.selected,
                 onSelectedChanged = _this$props.onSelectedChanged,
-                disabled = _this$props.disabled;
+                disabled = _this$props.disabled,
+                valueKey = _this$props.valueKey;
 
 
             if (disabled) {
@@ -1322,9 +1342,9 @@ var SelectList = function (_Component) {
             }
 
             if (checked) {
-                onSelectedChanged([].concat(_toConsumableArray(selected), [option.value]));
+                onSelectedChanged([].concat(_toConsumableArray(selected), [option[valueKey] || option.value]));
             } else {
-                var _index = selected.indexOf(option.value);
+                var _index = selected.indexOf(option[valueKey] || option.value);
                 var removed = [].concat(_toConsumableArray(selected.slice(0, _index)), _toConsumableArray(selected.slice(_index + 1)));
                 onSelectedChanged(removed);
             }
@@ -1342,7 +1362,9 @@ var SelectList = function (_Component) {
                 selected = _props.selected,
                 focusIndex = _props.focusIndex,
                 onClick = _props.onClick,
-                disabled = _props.disabled;
+                disabled = _props.disabled,
+                labelKey = _props.labelKey,
+                valueKey = _props.valueKey;
 
 
             return options.map(function (o, i) {
@@ -1358,7 +1380,7 @@ var SelectList = function (_Component) {
                         onSelectionChanged: function onSelectionChanged(c) {
                             return _this2.handleSelectionChanged(o, c);
                         },
-                        checked: selected.includes(o.value),
+                        checked: selected.includes(o[valueKey] || o.value),
                         onClick: function (_onClick) {
                             function onClick(_x) {
                                 return _onClick.apply(this, arguments);
@@ -1373,7 +1395,9 @@ var SelectList = function (_Component) {
                             return onClick(e, i);
                         }),
                         ItemRenderer: ItemRenderer,
-                        disabled: disabled
+                        disabled: disabled,
+                        labelKey: labelKey,
+                        valueKey: valueKey
                     })
                 );
             });

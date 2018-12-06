@@ -167,7 +167,9 @@ var SelectPanel = function (_Component) {
                 disabled = _props3.disabled,
                 disableSearch = _props3.disableSearch,
                 hasSelectAll = _props3.hasSelectAll,
-                overrideStrings = _props3.overrideStrings;
+                overrideStrings = _props3.overrideStrings,
+                labelKey = _props3.labelKey,
+                valueKey = _props3.valueKey;
 
 
             var selectAllOption = {
@@ -210,7 +212,9 @@ var SelectPanel = function (_Component) {
                         return _this2.handleItemClicked(0);
                     },
                     ItemRenderer: ItemRenderer,
-                    disabled: disabled
+                    disabled: disabled,
+                    labelKey: labelKey,
+                    valueKey: valueKey
                 }),
                 _react2.default.createElement(_selectList2.default, _extends({}, this.props, {
                     options: this.filteredOptions(),
@@ -219,7 +223,9 @@ var SelectPanel = function (_Component) {
                         return _this2.handleItemClicked(index + 1);
                     },
                     ItemRenderer: ItemRenderer,
-                    disabled: disabled
+                    disabled: disabled,
+                    labelKey: labelKey,
+                    valueKey: valueKey
                 }))
             );
         }

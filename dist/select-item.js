@@ -40,7 +40,9 @@ var DefaultItemRenderer = function (_Component) {
                 checked = _props.checked,
                 option = _props.option,
                 onClick = _props.onClick,
-                disabled = _props.disabled;
+                disabled = _props.disabled,
+                labelKey = _props.labelKey,
+                valueKey = _props.valueKey;
 
 
             var style = _extends({}, styles.label, disabled ? styles.labelDisabled : undefined);
@@ -60,7 +62,7 @@ var DefaultItemRenderer = function (_Component) {
                 _react2.default.createElement(
                     "span",
                     { style: style },
-                    option.label
+                    option[labelKey] || option.label
                 )
             );
         }
@@ -142,12 +144,15 @@ var SelectItem = function (_Component2) {
         value: function render() {
             var _this3 = this;
 
+            console.log(this.props);
             var _props2 = this.props,
                 ItemRenderer = _props2.ItemRenderer,
                 option = _props2.option,
                 checked = _props2.checked,
                 focused = _props2.focused,
-                disabled = _props2.disabled;
+                disabled = _props2.disabled,
+                labelKey = _props2.labelKey,
+                valueKey = _props2.valueKey;
             var hovered = this.state.hovered;
 
 
@@ -177,7 +182,9 @@ var SelectItem = function (_Component2) {
                     option: option,
                     checked: checked,
                     onClick: this.handleClick,
-                    disabled: disabled
+                    disabled: disabled,
+                    labelKey: labelKey,
+                    valueKey: valueKey
                 })
             );
         }
