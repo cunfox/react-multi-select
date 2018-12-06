@@ -4,23 +4,19 @@
  */
 import React, {Component} from 'react';
 
-export type Option = {
-    value: any,
-    label: string,
-    key?: string
-};
-
 type DefaultItemRendererProps = {
     checked: boolean,
-    option: Option,
+    option: any,
     disabled?: boolean,
+    labelKey?: string,
+    valueKey?: string,
 
     onClick: (event: MouseEvent) => void
 };
 
 class DefaultItemRenderer extends Component<DefaultItemRendererProps> {
     render() {
-        const {checked, option, onClick, disabled} = this.props;
+        const {checked, option, onClick, disabled, labelKey, valueKey} = this.props;
 
         const style = {
             ...styles.label,
@@ -38,7 +34,7 @@ class DefaultItemRenderer extends Component<DefaultItemRendererProps> {
                 disabled={disabled}
             />
             <span style={style}>
-                {option.label}
+                {option[labelKey] || option.label}
             </span>
         </span>;
     }
@@ -116,7 +112,8 @@ class SelectItem extends Component<SelectItemProps, SelectItemState> {
     }
 
     render() {
-        const {ItemRenderer, option, checked, focused, disabled} = this.props;
+        console.log(this.props)
+        const {ItemRenderer, option, checked, focused, disabled, labelKey, valueKey} = this.props;
         const {hovered} = this.state;
 
         const focusStyle = (focused || hovered)
@@ -140,6 +137,8 @@ class SelectItem extends Component<SelectItemProps, SelectItemState> {
                 checked={checked}
                 onClick={this.handleClick}
                 disabled={disabled}
+                labelKey={labelKey}
+                valueKey={valueKey}
             />
         </label>;
     }

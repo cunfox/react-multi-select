@@ -6,32 +6,30 @@ import React, {Component} from 'react';
 
 import SelectItem from './select-item.js';
 
-import type {
-    Option,
-} from './select-item.js';
-
 type Props = {
     focusIndex: number,
     ItemRenderer?: Function,
-    options: Array<Option>,
+    options: Array<any>,
     selected: Array<Object>,
     onSelectedChanged: (selected: any) => void,
     onClick: (event: MouseEvent, index: number) => void,
-    disabled?: boolean
+    disabled?: boolean,
+    labelKey?: string,
+    valueKey?: string,
 };
 
 class SelectList extends Component<Props> {
-    handleSelectionChanged = (option: Option, checked: boolean) => {
-        const {selected, onSelectedChanged, disabled} = this.props;
+    handleSelectionChanged = (option: any, checked: boolean) => {
+        const {selected, onSelectedChanged, disabled, valueKey} = this.props;
 
         if (disabled) {
             true;
         }
 
         if (checked) {
-            onSelectedChanged([...selected, option.value]);
+            onSelectedChanged([...selected, (option[valueKey] || option.value)]);
         } else {
-            const index = selected.indexOf(option.value);
+            const index = selected.indexOf((option[valueKey] || option.value));
             const removed = [
                 ...selected.slice(0, index),
                 ...selected.slice(index + 1),
@@ -48,6 +46,8 @@ class SelectList extends Component<Props> {
             focusIndex,
             onClick,
             disabled,
+            labelKey,
+            valueKey,
         } = this.props;
 
         return options.map((o, i) =>
@@ -59,10 +59,12 @@ class SelectList extends Component<Props> {
                     focused={focusIndex === i}
                     option={o}
                     onSelectionChanged={c => this.handleSelectionChanged(o, c)}
-                    checked={selected.includes(o.value)}
+                    checked={selected.includes((o[valueKey] || o.value))}
                     onClick={e => onClick(e, i)}
                     ItemRenderer={ItemRenderer}
                     disabled={disabled}
+                    labelKey={labelKey}
+                    valueKey={valueKey}
                 />
             </li>
         );

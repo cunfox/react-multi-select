@@ -18,17 +18,13 @@ import Dropdown from './dropdown.js';
 import SelectPanel from './select-panel.js';
 import getString from './get-string.js';
 
-import type {
-    Option,
-} from './select-item.js';
-
 type Props = {
-    options: Array<Option>,
+    options: Array<any>,
     selected: Array<any>,
     onSelectedChanged?: (selected: Array<any>) => void,
     valueRenderer?: (
         selected: Array<any>,
-        options: Array<Option>
+        options: Array<any>
     ) => string,
     ItemRenderer?: Function,
     selectAllLabel?: string,
@@ -37,8 +33,10 @@ type Props = {
     disableSearch?: boolean,
     shouldToggleOnHover: boolean,
     hasSelectAll: boolean,
-    filterOptions?: (options: Array<Option>, filter: string) => Array<Option>,
-    overrideStrings?: {[string]: string}
+    filterOptions?: (options: Array<any>, filter: string) => Array<any>,
+    overrideStrings?: {[string]: string},
+    labelKey?: string,
+    valueKey?: string,
 };
 
 class MultiSelect extends Component<Props> {
@@ -48,12 +46,12 @@ class MultiSelect extends Component<Props> {
     }
 
     getSelectedText() {
-        const {options, selected} = this.props;
+        const {options, selected, labelKey, valueKey} = this.props;
 
         const selectedOptions = selected
-            .map(s => options.find(o => o.value === s));
-
-        const selectedLabels = selectedOptions.map(s => s ? s.label : "");
+            .map(s => options.find(o => (o[valueKey] || o.value) === s));
+        console.log(selected)
+        const selectedLabels = selectedOptions.map(s => s ? (s[labelKey] || s.label) : "");
 
         return selectedLabels.join(", ");
     }
@@ -114,6 +112,8 @@ class MultiSelect extends Component<Props> {
             shouldToggleOnHover,
             hasSelectAll,
             overrideStrings,
+            labelKey,
+            valueKey,
         } = this.props;
 
         return <div className="multi-select">
@@ -132,6 +132,8 @@ class MultiSelect extends Component<Props> {
                     disableSearch,
                     filterOptions,
                     overrideStrings,
+                    labelKey,
+                    valueKey,
                 }}
                 disabled={disabled}
             >

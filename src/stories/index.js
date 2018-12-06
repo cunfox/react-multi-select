@@ -140,6 +140,8 @@ class StatefulMultiSelect extends Component<SMSProps, SMSState> {
             disableSearch,
             filterOptions,
             overrideStrings,
+            labelKey,
+            valueKey,
         } = this.props;
         const {selected} = this.state;
 
@@ -156,6 +158,8 @@ class StatefulMultiSelect extends Component<SMSProps, SMSState> {
                 disableSearch={disableSearch}
                 filterOptions={filterOptions}
                 overrideStrings={overrideStrings}
+                labelKey={labelKey}
+                valueKey={valueKey}
             />
 
             <h2>Selected:</h2>
@@ -254,4 +258,9 @@ storiesOf('MultiSelect', module)
             selectAll: "SeLeCt AlL",
             search: "SeArCh",
         }}
+    />)
+    .add('Custom Label Name', () => <StatefulMultiSelect
+        options={[{id: 1, name: "test"}, {id: 2, name: "test2"}, {id: 3, name: "test3"}]}
+        labelKey="name"
+        valueKey="id"
     />);

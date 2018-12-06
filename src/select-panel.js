@@ -11,19 +11,20 @@ import SelectItem from './select-item.js';
 import SelectList from './select-list.js';
 import getString from "./get-string.js";
 
-import type {Option} from './select-item.js';
 
 type Props = {
     ItemRenderer?: Function,
-    options: Array<Option>,
+    options: Array<any>,
     selected: Array<any>,
     selectAllLabel?: string,
     onSelectedChanged: (selected: Array<any>) => void,
     disabled?: boolean,
     disableSearch?: boolean,
     hasSelectAll: boolean,
-    filterOptions?: (options: Array<Option>, filter: string) => Array<Option>,
-    overrideStrings?: {[string]: string}
+    filterOptions?: (options: Array<any>, filter: string) => Array<any>,
+    overrideStrings?: {[string]: string},
+    labelKey?: string,
+    valueKey?: string,
 };
 
 type State = {
@@ -140,6 +141,8 @@ class SelectPanel extends Component<Props, State> {
             disableSearch,
             hasSelectAll,
             overrideStrings,
+            labelKey,
+            valueKey,
         } = this.props;
 
         const selectAllOption = {
@@ -177,6 +180,8 @@ class SelectPanel extends Component<Props, State> {
                   onClick={() => this.handleItemClicked(0)}
                   ItemRenderer={ItemRenderer}
                   disabled={disabled}
+                  labelKey={labelKey}
+                  valueKey={valueKey}
               />
             }
 
@@ -187,6 +192,8 @@ class SelectPanel extends Component<Props, State> {
                 onClick={(e, index) => this.handleItemClicked(index + 1)}
                 ItemRenderer={ItemRenderer}
                 disabled={disabled}
+                labelKey={labelKey}
+                valueKey={valueKey}
             />
         </div>;
     }
