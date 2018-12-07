@@ -61,10 +61,11 @@ var SelectPanel = function (_Component) {
         }, _this.selectAll = function () {
             var _this$props = _this.props,
                 onSelectedChanged = _this$props.onSelectedChanged,
-                options = _this$props.options;
+                options = _this$props.options,
+                valueKey = _this$props.valueKey;
 
             var allValues = options.map(function (o) {
-                return o.value;
+                return o[valueKey] || o.value;
             });
 
             onSelectedChanged(allValues);

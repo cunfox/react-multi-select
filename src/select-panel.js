@@ -41,8 +41,8 @@ class SelectPanel extends Component<Props, State> {
     }
 
     selectAll = () => {
-        const {onSelectedChanged, options} = this.props;
-        const allValues = options.map(o => o.value);
+        const {onSelectedChanged, options, valueKey} = this.props;
+        const allValues = options.map(o => o[valueKey] || o.value);
 
         onSelectedChanged(allValues);
     }
