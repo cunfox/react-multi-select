@@ -112,7 +112,6 @@ class SelectItem extends Component<SelectItemProps, SelectItemState> {
     }
 
     render() {
-        console.log(this.props)
         const {ItemRenderer, option, checked, focused, disabled, labelKey, valueKey} = this.props;
         const {hovered} = this.state;
 

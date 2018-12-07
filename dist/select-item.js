@@ -144,7 +144,6 @@ var SelectItem = function (_Component2) {
         value: function render() {
             var _this3 = this;
 
-            console.log(this.props);
             var _props2 = this.props,
                 ItemRenderer = _props2.ItemRenderer,
                 option = _props2.option,

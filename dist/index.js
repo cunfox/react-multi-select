@@ -90,7 +90,6 @@ var MultiSelect = function (_Component) {
                     return (o[valueKey] || o.value) === s;
                 });
             });
-            console.log(selected);
             var selectedLabels = selectedOptions.map(function (s) {
                 return s ? s[labelKey] || s.label : "";
             });

@@ -50,7 +50,6 @@ class MultiSelect extends Component<Props> {
 
         const selectedOptions = selected
             .map(s => options.find(o => (o[valueKey] || o.value) === s));
-        console.log(selected)
         const selectedLabels = selectedOptions.map(s => s ? (s[labelKey] || s.label) : "");
 
         return selectedLabels.join(", ");
