@@ -23,7 +23,7 @@ class DefaultItemRenderer extends Component<DefaultItemRendererProps> {
             ...(disabled ? styles.labelDisabled : undefined),
         };
 
-        return <span
+        return <div
             className="item-renderer"
         >
             <input
@@ -34,18 +34,20 @@ class DefaultItemRenderer extends Component<DefaultItemRendererProps> {
                 disabled={disabled}
             />
             <span style={style}>
-                {option[labelKey] || option.label}
+                {option[labelKey]}
             </span>
-        </span>;
+        </div>;
     }
 }
 
 type SelectItemProps = {
     ItemRenderer: Function,
-    option: Option,
+    option: any,
     checked: boolean,
     focused?: boolean,
     disabled?: boolean,
+    labelKey: string,
+    valueKey: string,
     onSelectionChanged: (checked: boolean) => void,
     onClick: (event: MouseEvent) => void
 };

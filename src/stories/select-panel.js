@@ -9,10 +9,8 @@ const options = [
     {label: "Jane Doe", value: 3},
 ];
 
-import type {Option} from "../select-item.js";
-
 type State = {
-    selected: Array<Option>
+    selected: Array<any>
 };
 
 class StatefulSelectPanel extends Component<{}, State> {

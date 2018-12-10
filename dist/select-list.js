@@ -55,9 +55,9 @@ var SelectList = function (_Component) {
             }
 
             if (checked) {
-                onSelectedChanged([].concat(_toConsumableArray(selected), [option[valueKey] || option.value]));
+                onSelectedChanged([].concat(_toConsumableArray(selected), [option[valueKey]]));
             } else {
-                var _index = selected.indexOf(option[valueKey] || option.value);
+                var _index = selected.indexOf(option[valueKey]);
                 var removed = [].concat(_toConsumableArray(selected.slice(0, _index)), _toConsumableArray(selected.slice(_index + 1)));
                 onSelectedChanged(removed);
             }

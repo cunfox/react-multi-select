@@ -37,20 +37,24 @@ type Props = {
     overrideStrings?: {[string]: string},
     labelKey?: string,
     valueKey?: string,
+    clearable?: boolean
 };
 
 class MultiSelect extends Component<Props> {
     static defaultProps = {
+        clearable: false,
         hasSelectAll: true,
         shouldToggleOnHover: false,
+        labelKey: "label",
+        valueKey: "value",
     }
 
     getSelectedText() {
         const {options, selected, labelKey, valueKey} = this.props;
 
         const selectedOptions = selected
-            .map(s => options.find(o => (o[valueKey] || o.value) === s));
-        const selectedLabels = selectedOptions.map(s => s ? (s[labelKey] || s.label) : "");
+            .map(s => options.find(o => (o[valueKey]) === s));
+        const selectedLabels = selectedOptions.map(s => s ? (s[labelKey]) : "");
 
         return selectedLabels.join(", ");
     }
@@ -101,6 +105,7 @@ class MultiSelect extends Component<Props> {
     render() {
         const {
             ItemRenderer,
+            clearable,
             options,
             selected,
             selectAllLabel,
@@ -122,6 +127,7 @@ class MultiSelect extends Component<Props> {
                 shouldToggleOnHover={shouldToggleOnHover}
                 contentProps={{
                     ItemRenderer,
+                    clearable,
                     options,
                     selected,
                     hasSelectAll,

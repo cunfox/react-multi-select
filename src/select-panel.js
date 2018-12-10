@@ -6,6 +6,8 @@
  */
 import {filterOptions} from 'fuzzy-match-utils';
 import React, {Component} from 'react';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faTimes} from '@fortawesome/free-solid-svg-icons';
 
 import SelectItem from './select-item.js';
 import SelectList from './select-list.js';
@@ -14,6 +16,7 @@ import getString from "./get-string.js";
 
 type Props = {
     ItemRenderer?: Function,
+    clearable?: boolean,
     options: Array<any>,
     selected: Array<any>,
     selectAllLabel?: string,
@@ -72,7 +75,9 @@ class SelectPanel extends Component<Props, State> {
         this.setState({focusIndex: index});
     }
 
-    clearSearch = () => {
+    clearSearch = (event: {preventDefault: Function}) => {
+        event.preventDefault();
+
         this.setState({searchText: ""});
     }
 
@@ -107,6 +112,19 @@ class SelectPanel extends Component<Props, State> {
         });
     }
 
+    renderClearButton = () => {
+        if (this.props.clearable) {
+            return (
+                <span>
+                    <button type="button" style={styles.button} onClick={this.clearSearch}>
+                        <FontAwesomeIcon icon={faTimes} />
+                    </button>
+                </span>
+            );
+        };
+        return null;
+    }
+
     allAreSelected() {
         const {options, selected} = this.props;
         return options.length === selected.length;
@@ -133,7 +151,7 @@ class SelectPanel extends Component<Props, State> {
     }
 
     render() {
-        const {focusIndex, searchHasFocus} = this.state;
+        const {focusIndex, searchHasFocus, searchText} = this.state;
         const {
             ItemRenderer,
             selectAllLabel,
@@ -168,7 +186,9 @@ class SelectPanel extends Component<Props, State> {
                     style={{...styles.search, ...focusedSearchStyle}}
                     onFocus={() => this.handleSearchFocus(true)}
                     onBlur={() => this.handleSearchFocus(false)}
+                    value={searchText}
                 />
+                {this.renderClearButton()}
             </div>}
 
             {hasSelectAll &&
@@ -180,8 +200,8 @@ class SelectPanel extends Component<Props, State> {
                   onClick={() => this.handleItemClicked(0)}
                   ItemRenderer={ItemRenderer}
                   disabled={disabled}
-                  labelKey={labelKey}
-                  valueKey={valueKey}
+                  labelKey="label"
+                  valueKey="value"
               />
             }
 
@@ -204,7 +224,7 @@ const styles = {
         boxSizing : 'border-box',
     },
     search: {
-        display: "block",
+        display: "inline-block",
 
         maxWidth: "100%",
         borderRadius: "3px",
@@ -215,8 +235,15 @@ const styles = {
         border: '1px solid',
         borderColor: '#dee2e4',
         padding: '10px',
-        width: "100%",
+        width: "98%",
         outline: "none",
+    },
+    button: {
+        height: "30px",
+        width: "30px",
+        backgroundColor: '#fff',
+        border: '1px solid #ccc',
+        cursor: 'pointer',
     },
     searchFocused: {
         borderColor: "#78c008",

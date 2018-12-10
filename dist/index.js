@@ -87,11 +87,11 @@ var MultiSelect = function (_Component) {
 
             var selectedOptions = selected.map(function (s) {
                 return options.find(function (o) {
-                    return (o[valueKey] || o.value) === s;
+                    return o[valueKey] === s;
                 });
             });
             var selectedLabels = selectedOptions.map(function (s) {
-                return s ? s[labelKey] || s.label : "";
+                return s ? s[labelKey] : "";
             });
 
             return selectedLabels.join(", ");
@@ -138,6 +138,7 @@ var MultiSelect = function (_Component) {
         value: function render() {
             var _props3 = this.props,
                 ItemRenderer = _props3.ItemRenderer,
+                clearable = _props3.clearable,
                 options = _props3.options,
                 selected = _props3.selected,
                 selectAllLabel = _props3.selectAllLabel,
@@ -163,6 +164,7 @@ var MultiSelect = function (_Component) {
                         shouldToggleOnHover: shouldToggleOnHover,
                         contentProps: {
                             ItemRenderer: ItemRenderer,
+                            clearable: clearable,
                             options: options,
                             selected: selected,
                             hasSelectAll: hasSelectAll,
@@ -187,8 +189,11 @@ var MultiSelect = function (_Component) {
 }(_react.Component);
 
 MultiSelect.defaultProps = {
+    clearable: false,
     hasSelectAll: true,
-    shouldToggleOnHover: false
+    shouldToggleOnHover: false,
+    labelKey: "label",
+    valueKey: "value"
 };
 
 

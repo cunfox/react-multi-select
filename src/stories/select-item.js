@@ -3,18 +3,14 @@ import React, {Component} from 'react';
 import {storiesOf} from '@storybook/react';
 import SelectItem from '../select-item.js';
 
-import type {
-    Option,
-} from '../select-item.js';
-
-const option: Option = {
+const option = {
     label: "one",
     value: 1,
 };
 
 type Props = {};
 type State = {
-    option: Option,
+    option: any,
     checked: boolean
 };
 
@@ -40,6 +36,8 @@ class StatefulSelectItem extends Component<Props, State> {
                 checked={checked}
                 onSelectionChanged={this.handleChange.bind(this)}
                 onClick={() => {}}
+                labelKey="label"
+                valueKey="value"
             />
 
             <h2>Selected:</h2>

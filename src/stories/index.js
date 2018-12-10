@@ -3,10 +3,6 @@ import React, {Component} from 'react';
 import {storiesOf} from '@storybook/react';
 import MultiSelect from '../index.js';
 
-import type {
-    Option,
-} from '../select-item.js';
-
 const shortList = [
     {label: "Brian Genisio", value: 1},
     {label: "John Doe", value: 2},
@@ -103,18 +99,21 @@ const studentsList = students.map(s => ({
 }));
 
 type SMSProps = {
-    options: Option[],
-    valueRenderer?: (values: Array<any>, options: Array<Option>) => string,
+    options: any,
+    valueRenderer?: (values: Array<any>, options: Array<any>) => string,
     ItemRenderer?: Function,
     selectAllLabel?: string,
     isLoading?: boolean,
     disabled?: boolean,
     disableSearch?: boolean,
-    filterOptions?: (options: Array<Option>, filter: string) => Array<Option>,
-    overrideStrings?: {[string]: string}
+    filterOptions?: (options: Array<any>, filter: string) => Array<any>,
+    overrideStrings?: {[string]: string},
+    labelKey?: string,
+    valueKey?: string,
+    clearable?: boolean
 };
 type SMSState = {
-    selected: Array<Option>
+    selected: Array<any>
 };
 
 class StatefulMultiSelect extends Component<SMSProps, SMSState> {
@@ -131,6 +130,7 @@ class StatefulMultiSelect extends Component<SMSProps, SMSState> {
 
     render() {
         const {
+            clearable,
             ItemRenderer,
             options,
             selectAllLabel,
@@ -160,6 +160,7 @@ class StatefulMultiSelect extends Component<SMSProps, SMSState> {
                 overrideStrings={overrideStrings}
                 labelKey={labelKey}
                 valueKey={valueKey}
+                clearable={clearable}
             />
 
             <h2>Selected:</h2>
@@ -182,7 +183,7 @@ function studentValueRenderer(selected, options) {
 
 type SIRProps = {
     checked: boolean,
-    option: Option,
+    option: any,
 
     onClick: (event: MouseEvent) => void
 };
@@ -206,8 +207,8 @@ class StudentItemRenderer extends Component<SIRProps> {
     }
 }
 
-const customFilter = (options: Array<Option>, filter: string) => {
-    const optionIncludesText = (option: Option) => {
+const customFilter = (options: Array<any>, filter: string) => {
+    const optionIncludesText = (option: any) => {
         const label = option.label || "";
         return label.toLowerCase().includes(filter);
     };
@@ -263,4 +264,8 @@ storiesOf('MultiSelect', module)
         options={[{id: 1, name: "test"}, {id: 2, name: "test2"}, {id: 3, name: "test3"}]}
         labelKey="name"
         valueKey="id"
+    />)
+    .add('Clearable search', () => <StatefulMultiSelect
+        clearable={true}
+        options={studentsList}
     />);

@@ -48,7 +48,7 @@ var DefaultItemRenderer = function (_Component) {
             var style = _extends({}, styles.label, disabled ? styles.labelDisabled : undefined);
 
             return _react2.default.createElement(
-                "span",
+                "div",
                 {
                     className: "item-renderer"
                 },
@@ -62,7 +62,7 @@ var DefaultItemRenderer = function (_Component) {
                 _react2.default.createElement(
                     "span",
                     { style: style },
-                    option[labelKey] || option.label
+                    option[labelKey]
                 )
             );
         }

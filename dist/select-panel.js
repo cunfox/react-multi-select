@@ -14,6 +14,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactFontawesome = require('@fortawesome/react-fontawesome');
+
+var _freeSolidSvgIcons = require('@fortawesome/free-solid-svg-icons');
+
 var _selectItem = require('./select-item.js');
 
 var _selectItem2 = _interopRequireDefault(_selectItem);
@@ -87,7 +91,9 @@ var SelectPanel = function (_Component) {
             });
         }, _this.handleItemClicked = function (index) {
             _this.setState({ focusIndex: index });
-        }, _this.clearSearch = function () {
+        }, _this.clearSearch = function (event) {
+            event.preventDefault();
+
             _this.setState({ searchText: "" });
         }, _this.handleKeyDown = function (e) {
             switch (e.which) {
@@ -118,6 +124,19 @@ var SelectPanel = function (_Component) {
                 searchHasFocus: searchHasFocus,
                 focusIndex: -1
             });
+        }, _this.renderClearButton = function () {
+            if (_this.props.clearable) {
+                return _react2.default.createElement(
+                    'span',
+                    null,
+                    _react2.default.createElement(
+                        'button',
+                        { type: 'button', style: styles.button, onClick: _this.clearSearch },
+                        _react2.default.createElement(_reactFontawesome.FontAwesomeIcon, { icon: _freeSolidSvgIcons.faTimes })
+                    )
+                );
+            };
+            return null;
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
@@ -161,7 +180,8 @@ var SelectPanel = function (_Component) {
 
             var _state = this.state,
                 focusIndex = _state.focusIndex,
-                searchHasFocus = _state.searchHasFocus;
+                searchHasFocus = _state.searchHasFocus,
+                searchText = _state.searchText;
             var _props3 = this.props,
                 ItemRenderer = _props3.ItemRenderer,
                 selectAllLabel = _props3.selectAllLabel,
@@ -201,8 +221,10 @@ var SelectPanel = function (_Component) {
                         },
                         onBlur: function onBlur() {
                             return _this2.handleSearchFocus(false);
-                        }
-                    })
+                        },
+                        value: searchText
+                    }),
+                    this.renderClearButton()
                 ),
                 hasSelectAll && _react2.default.createElement(_selectItem2.default, {
                     focused: focusIndex === 0,
@@ -214,8 +236,8 @@ var SelectPanel = function (_Component) {
                     },
                     ItemRenderer: ItemRenderer,
                     disabled: disabled,
-                    labelKey: labelKey,
-                    valueKey: valueKey
+                    labelKey: 'label',
+                    valueKey: 'value'
                 }),
                 _react2.default.createElement(_selectList2.default, _extends({}, this.props, {
                     options: this.filteredOptions(),
@@ -240,7 +262,7 @@ var styles = {
         boxSizing: 'border-box'
     },
     search: {
-        display: "block",
+        display: "inline-block",
 
         maxWidth: "100%",
         borderRadius: "3px",
@@ -251,8 +273,15 @@ var styles = {
         border: '1px solid',
         borderColor: '#dee2e4',
         padding: '10px',
-        width: "100%",
+        width: "98%",
         outline: "none"
+    },
+    button: {
+        height: "30px",
+        width: "30px",
+        backgroundColor: '#fff',
+        border: '1px solid #ccc',
+        cursor: 'pointer'
     },
     searchFocused: {
         borderColor: "#78c008"

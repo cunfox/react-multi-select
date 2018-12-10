@@ -14,8 +14,8 @@ type Props = {
     onSelectedChanged: (selected: any) => void,
     onClick: (event: MouseEvent, index: number) => void,
     disabled?: boolean,
-    labelKey?: string,
-    valueKey?: string,
+    labelKey: string,
+    valueKey: string,
 };
 
 class SelectList extends Component<Props> {
@@ -27,9 +27,9 @@ class SelectList extends Component<Props> {
         }
 
         if (checked) {
-            onSelectedChanged([...selected, (option[valueKey] || option.value)]);
+            onSelectedChanged([...selected, (option[valueKey])]);
         } else {
-            const index = selected.indexOf((option[valueKey] || option.value));
+            const index = selected.indexOf((option[valueKey]));
             const removed = [
                 ...selected.slice(0, index),
                 ...selected.slice(index + 1),
