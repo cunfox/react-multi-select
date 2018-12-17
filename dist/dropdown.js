@@ -48,7 +48,8 @@ var Dropdown = function (_Component) {
             expanded: false,
             hasFocus: false
         }, _this.handleDocumentClick = function (event) {
-            if (_this.wrapper && !_this.wrapper.contains(event.target)) {
+            console.log(_this.wrapper, _this.wrapper.contains(event.target));
+            if (!_this.wrapper.contains(event.target)) {
                 _this.setState({ expanded: false });
             }
         }, _this.handleKeyDown = function (e) {
@@ -156,7 +157,9 @@ var Dropdown = function (_Component) {
             var _props2 = this.props,
                 children = _props2.children,
                 isLoading = _props2.isLoading,
-                disabled = _props2.disabled;
+                disabled = _props2.disabled,
+                name = _props2.name,
+                id = _props2.id;
 
 
             var expandedHeaderStyle = expanded ? styles.dropdownHeaderExpanded : undefined;
@@ -172,7 +175,8 @@ var Dropdown = function (_Component) {
             return _react2.default.createElement(
                 'div',
                 {
-                    className: 'dropdown',
+                    name: name,
+                    id: id,
                     tabIndex: '0',
                     role: 'combobox',
                     'aria-expanded': expanded,
@@ -254,9 +258,6 @@ var styles = {
         width: 0,
         position: 'relative'
     },
-    dropdownArrowDownFocused: {
-        borderColor: focusColor + ' transparent transparent'
-    },
     dropdownArrowUp: {
         boxSizing: 'border-box',
         top: '-2px',
@@ -310,10 +311,6 @@ var styles = {
         overflow: 'hidden',
         position: 'relative',
         width: '100%'
-    },
-    dropdownHeaderFocused: {
-        borderColor: focusColor,
-        boxShadow: 'none'
     },
     dropdownHeaderExpanded: {
         borderBottomRightRadius: '0px',

@@ -161,6 +161,8 @@ class StatefulMultiSelect extends Component<SMSProps, SMSState> {
                 labelKey={labelKey}
                 valueKey={valueKey}
                 clearable={clearable}
+                id="select"
+                name="select"
             />
 
             <h2>Selected:</h2>

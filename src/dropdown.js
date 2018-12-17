@@ -17,6 +17,8 @@ type Props = {
     shouldToggleOnHover?: boolean,
     labelKey?: string,
     valueKey?: string,
+    name?: string,
+    id?: string,
 };
 
 type State = {
@@ -43,7 +45,8 @@ class Dropdown extends Component<Props, State> {
     wrapper: ?Object
 
     handleDocumentClick = (event: Event) => {
-        if (this.wrapper && !this.wrapper.contains(event.target)) {
+        console.log(this.wrapper, this.wrapper.contains(event.target))
+        if (!this.wrapper.contains(event.target)) {
             this.setState({expanded: false});
         }
     }
@@ -130,7 +133,7 @@ class Dropdown extends Component<Props, State> {
 
     render() {
         const {expanded, hasFocus} = this.state;
-        const {children, isLoading, disabled} = this.props;
+        const {children, isLoading, disabled, name, id} = this.props;
 
         const expandedHeaderStyle = expanded
             ? styles.dropdownHeaderExpanded
@@ -154,7 +157,8 @@ class Dropdown extends Component<Props, State> {
         };
 
         return <div
-            className="dropdown"
+            name={name}
+            id={id}
             tabIndex="0"
             role="combobox"
             aria-expanded={expanded}
@@ -228,9 +232,6 @@ const styles = {
         width: 0,
         position: 'relative',
     },
-    dropdownArrowDownFocused: {
-        borderColor: `${focusColor} transparent transparent`,
-    },
     dropdownArrowUp: {
         boxSizing: 'border-box',
         top: '-2px',
@@ -284,10 +285,6 @@ const styles = {
         overflow: 'hidden',
         position: 'relative',
         width: '100%',
-    },
-    dropdownHeaderFocused: {
-        borderColor: focusColor,
-        boxShadow: 'none',
     },
     dropdownHeaderExpanded: {
         borderBottomRightRadius: '0px',

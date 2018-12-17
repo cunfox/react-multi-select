@@ -37,7 +37,9 @@ type Props = {
     overrideStrings?: {[string]: string},
     labelKey?: string,
     valueKey?: string,
-    clearable?: boolean
+    clearable?: boolean,
+    name?: string,
+    id?: string,
 };
 
 class MultiSelect extends Component<Props> {
@@ -118,6 +120,8 @@ class MultiSelect extends Component<Props> {
             overrideStrings,
             labelKey,
             valueKey,
+            name,
+            id,
         } = this.props;
 
         return <div className="multi-select">
@@ -140,6 +144,8 @@ class MultiSelect extends Component<Props> {
                     labelKey,
                     valueKey,
                 }}
+                name={name}
+                id={id}
                 disabled={disabled}
             >
                 {this.renderHeader()}

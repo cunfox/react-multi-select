@@ -150,7 +150,9 @@ var MultiSelect = function (_Component) {
                 hasSelectAll = _props3.hasSelectAll,
                 overrideStrings = _props3.overrideStrings,
                 labelKey = _props3.labelKey,
-                valueKey = _props3.valueKey;
+                valueKey = _props3.valueKey,
+                name = _props3.name,
+                id = _props3.id;
 
 
             return _react2.default.createElement(
@@ -177,6 +179,8 @@ var MultiSelect = function (_Component) {
                             labelKey: labelKey,
                             valueKey: valueKey
                         },
+                        name: name,
+                        id: id,
                         disabled: disabled
                     },
                     this.renderHeader()
