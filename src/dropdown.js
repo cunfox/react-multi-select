@@ -5,7 +5,7 @@
  * drops-down the contentComponent and applies the contentProps.
  */
 import React, {Component} from 'react';
-
+import $ from "jquery";
 import LoadingIndicator from './loading-indicator.js';
 
 type Props = {
@@ -45,8 +45,20 @@ class Dropdown extends Component<Props, State> {
     wrapper: ?Object
 
     handleDocumentClick = (event: Event) => {
-        console.log(this.wrapper, this.wrapper.contains(event.target))
-        if (!this.wrapper.contains(event.target)) {
+        const scrollSize = 15;
+        const element = $(event.target)
+        if(!this.state.expanded) {
+            return null;
+        }
+        if (element[0].scrollHeight > element.height() || element[0].scrollWidth > element.width()) {
+            if (event.clientY > element.position().top + element.height() && event.clientY <= element.position().top + element.height() + scrollSize) {
+                return null;
+            }
+            if (event.clientX > element.position().left + element.width() && event.clientX <= element.position().left + element.width() + scrollSize) {
+                return null;
+            }
+        }
+        if (!$(this.wrapper).is(event.target) && !this.wrapper.contains(event.target)) {
             this.setState({expanded: false});
         }
     }

@@ -12,6 +12,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _jquery = require('jquery');
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
 var _loadingIndicator = require('./loading-indicator.js');
 
 var _loadingIndicator2 = _interopRequireDefault(_loadingIndicator);
@@ -48,8 +52,20 @@ var Dropdown = function (_Component) {
             expanded: false,
             hasFocus: false
         }, _this.handleDocumentClick = function (event) {
-            console.log(_this.wrapper, _this.wrapper.contains(event.target));
-            if (!_this.wrapper.contains(event.target)) {
+            var scrollSize = 15;
+            var element = (0, _jquery2.default)(event.target);
+            if (!_this.state.expanded) {
+                return null;
+            }
+            if (element[0].scrollHeight > element.height() || element[0].scrollWidth > element.width()) {
+                if (event.clientY > element.position().top + element.height() && event.clientY <= element.position().top + element.height() + scrollSize) {
+                    return null;
+                }
+                if (event.clientX > element.position().left + element.width() && event.clientX <= element.position().left + element.width() + scrollSize) {
+                    return null;
+                }
+            }
+            if (!(0, _jquery2.default)(_this.wrapper).is(event.target) && !_this.wrapper.contains(event.target)) {
                 _this.setState({ expanded: false });
             }
         }, _this.handleKeyDown = function (e) {
