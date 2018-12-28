@@ -82,6 +82,7 @@ class SelectPanel extends Component<Props, State> {
     }
 
     handleKeyDown = (e: KeyboardEvent) => {
+        console.log(e.which)
         switch (e.which) {
             case 38: // Up Arrow
                 if (e.altKey) {
@@ -225,10 +226,8 @@ const styles = {
     },
     search: {
         display: "inline-block",
-
         maxWidth: "100%",
         borderRadius: "3px",
-
         boxSizing : 'border-box',
         height: '30px',
         lineHeight: '24px',
@@ -244,9 +243,6 @@ const styles = {
         backgroundColor: '#fff',
         border: '1px solid #ccc',
         cursor: 'pointer',
-    },
-    searchFocused: {
-        borderColor: "#78c008",
     },
     searchContainer: {
         width: "100%",
