@@ -7,7 +7,6 @@ import React, {Component} from 'react';
 import SelectItem from './select-item.js';
 
 type Props = {
-    focusIndex: number,
     ItemRenderer?: Function,
     options: Array<any>,
     selected: Array<Object>,
@@ -43,7 +42,6 @@ class SelectList extends Component<Props> {
             ItemRenderer,
             options,
             selected,
-            focusIndex,
             onClick,
             disabled,
             labelKey,
@@ -56,7 +54,6 @@ class SelectList extends Component<Props> {
                 key={o.hasOwnProperty("key") ? o.key : i}
             >
                 <SelectItem
-                    focused={focusIndex === i}
                     option={o}
                     onSelectionChanged={c => this.handleSelectionChanged(o, c)}
                     checked={selected.includes((o[valueKey] || o.value))}

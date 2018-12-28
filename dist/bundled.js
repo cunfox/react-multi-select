@@ -537,26 +537,6 @@ var SelectItem = function (_Component2) {
     }
 
     _createClass(SelectItem, [{
-        key: "componentDidMount",
-        value: function componentDidMount() {
-            this.updateFocus();
-        }
-    }, {
-        key: "componentDidUpdate",
-        value: function componentDidUpdate() {
-            this.updateFocus();
-        }
-    }, {
-        key: "updateFocus",
-        value: function updateFocus() {
-            var focused = this.props.focused;
-
-
-            if (focused && this.itemRef) {
-                this.itemRef.focus();
-            }
-        }
-    }, {
         key: "render",
         value: function render() {
             var _this3 = this;
@@ -792,16 +772,16 @@ var Dropdown = function (_Component) {
                     // Escape
                     _this.toggleExpanded(false);
                     break;
-                case 38:
-                    // Up Arrow
-                    _this.toggleExpanded(false);
-                    break;
+                case 38: // Up Arrow
                 case 13: // Enter Key
-                case 32: // Space
                 case 40:
                     // Down Arrow
-                    _this.toggleExpanded(true);
+                    _this.toggleExpanded(false);
                     break;
+                case 32:
+                    // Space
+                    _this.toggleExpanded(true);
+                    return;
                 default:
                     return;
             }
@@ -968,8 +948,6 @@ var Dropdown = function (_Component) {
 
     return Dropdown;
 }(_react.Component);
-
-var focusColor = '#78c008';
 
 var styles = {
     dropdownArrow: {
@@ -1143,8 +1121,7 @@ var SelectPanel = function (_Component) {
 
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = SelectPanel.__proto__ || Object.getPrototypeOf(SelectPanel)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
             searchHasFocus: false,
-            searchText: "",
-            focusIndex: 0
+            searchText: ""
         }, _this.selectAll = function () {
             var _this$props = _this.props,
                 onSelectedChanged = _this$props.onSelectedChanged,
@@ -1178,23 +1155,18 @@ var SelectPanel = function (_Component) {
             event.preventDefault();
 
             _this.setState({ searchText: "" });
+        }, _this.handleSearchFocus = function (searchHasFocus) {
+            _this.setState({
+                searchHasFocus: searchHasFocus
+            });
         }, _this.handleKeyDown = function (e) {
             switch (e.which) {
-                case 38:
-                    // Up Arrow
-                    if (e.altKey) {
-                        return;
-                    }
-
-                    _this.updateFocus(-1);
-                    break;
+                case 38: // Up Arrow
                 case 40:
                     // Down Arrow
                     if (e.altKey) {
                         return;
                     }
-
-                    _this.updateFocus(1);
                     break;
                 default:
                     return;
@@ -1202,11 +1174,6 @@ var SelectPanel = function (_Component) {
 
             e.stopPropagation();
             e.preventDefault();
-        }, _this.handleSearchFocus = function (searchHasFocus) {
-            _this.setState({
-                searchHasFocus: searchHasFocus,
-                focusIndex: -1
-            });
         }, _this.renderClearButton = function () {
             if (_this.props.clearable) {
                 return _react2.default.createElement(
@@ -1242,19 +1209,6 @@ var SelectPanel = function (_Component) {
 
 
             return customFilterOptions ? customFilterOptions(options, searchText) : (0, _fuzzyMatchUtils.filterOptions)(options, searchText);
-        }
-    }, {
-        key: 'updateFocus',
-        value: function updateFocus(offset) {
-            var focusIndex = this.state.focusIndex;
-            var options = this.props.options;
-
-
-            var newFocus = focusIndex + offset;
-            newFocus = Math.max(0, newFocus);
-            newFocus = Math.min(newFocus, options.length);
-
-            this.setState({ focusIndex: newFocus });
         }
     }, {
         key: 'render',
@@ -1302,15 +1256,11 @@ var SelectPanel = function (_Component) {
                         onFocus: function onFocus() {
                             return _this2.handleSearchFocus(true);
                         },
-                        onBlur: function onBlur() {
-                            return _this2.handleSearchFocus(false);
-                        },
                         value: searchText
                     }),
                     this.renderClearButton()
                 ),
                 hasSelectAll && _react2.default.createElement(_selectItem2.default, {
-                    focused: focusIndex === 0,
                     checked: this.allAreSelected(),
                     option: selectAllOption,
                     onSelectionChanged: this.selectAllChanged,
@@ -1324,7 +1274,6 @@ var SelectPanel = function (_Component) {
                 }),
                 _react2.default.createElement(_selectList2.default, _extends({}, this.props, {
                     options: this.filteredOptions(),
-                    focusIndex: focusIndex - 1,
                     onClick: function onClick(e, index) {
                         return _this2.handleItemClicked(index + 1);
                     },
@@ -1346,10 +1295,8 @@ var styles = {
     },
     search: {
         display: "inline-block",
-
         maxWidth: "100%",
         borderRadius: "3px",
-
         boxSizing: 'border-box',
         height: '30px',
         lineHeight: '24px',
@@ -1367,7 +1314,8 @@ var styles = {
         cursor: 'pointer'
     },
     searchFocused: {
-        borderColor: "#78c008"
+        borderColor: "#66afe9",
+        boxShadow: "inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6)"
     },
     searchContainer: {
         width: "100%",
@@ -1444,7 +1392,14 @@ var MultiSelect = function (_Component) {
             args[_key] = arguments[_key];
         }
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = MultiSelect.__proto__ || Object.getPrototypeOf(MultiSelect)).call.apply(_ref, [this].concat(args))), _this), _this.handleSelectedChanged = function (selected) {
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = MultiSelect.__proto__ || Object.getPrototypeOf(MultiSelect)).call.apply(_ref, [this].concat(args))), _this), _this.filterOptions = function (options, filter) {
+            var optionIncludesText = function optionIncludesText(option) {
+                var label = option[_this.props.labelKey] || "";
+                return label.toLowerCase().includes(filter.toLowerCase());
+            };
+
+            return options.filter(optionIncludesText);
+        }, _this.handleSelectedChanged = function (selected) {
             var _this$props = _this.props,
                 onSelectedChanged = _this$props.onSelectedChanged,
                 disabled = _this$props.disabled;
@@ -1530,7 +1485,6 @@ var MultiSelect = function (_Component) {
                 isLoading = _props3.isLoading,
                 disabled = _props3.disabled,
                 disableSearch = _props3.disableSearch,
-                filterOptions = _props3.filterOptions,
                 shouldToggleOnHover = _props3.shouldToggleOnHover,
                 hasSelectAll = _props3.hasSelectAll,
                 overrideStrings = _props3.overrideStrings,
@@ -1559,7 +1513,7 @@ var MultiSelect = function (_Component) {
                             onSelectedChanged: this.handleSelectedChanged,
                             disabled: disabled,
                             disableSearch: disableSearch,
-                            filterOptions: filterOptions,
+                            filterOptions: this.filterOptions,
                             overrideStrings: overrideStrings,
                             labelKey: labelKey,
                             valueKey: valueKey
@@ -1790,7 +1744,6 @@ var SelectList = function (_Component) {
                 ItemRenderer = _props.ItemRenderer,
                 options = _props.options,
                 selected = _props.selected,
-                focusIndex = _props.focusIndex,
                 onClick = _props.onClick,
                 disabled = _props.disabled,
                 labelKey = _props.labelKey,
@@ -1805,7 +1758,6 @@ var SelectList = function (_Component) {
                         key: o.hasOwnProperty("key") ? o.key : i
                     },
                     _react2.default.createElement(_selectItem2.default, {
-                        focused: focusIndex === i,
                         option: o,
                         onSelectionChanged: function onSelectionChanged(c) {
                             return _this2.handleSelectionChanged(o, c);

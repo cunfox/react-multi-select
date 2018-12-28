@@ -69,13 +69,13 @@ class Dropdown extends Component<Props, State> {
                 this.toggleExpanded(false);
                 break;
             case 38: // Up Arrow
+            case 13: // Enter Key
+            case 40: // Down Arrow
                 this.toggleExpanded(false);
                 break;
-            case 13: // Enter Key
             case 32: // Space
-            case 40: // Down Arrow
                 this.toggleExpanded(true);
-                break;
+                return;
             default:
                 return;
         }

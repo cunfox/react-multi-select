@@ -33,7 +33,6 @@ type Props = {
     disableSearch?: boolean,
     shouldToggleOnHover: boolean,
     hasSelectAll: boolean,
-    filterOptions?: (options: Array<any>, filter: string) => Array<any>,
     overrideStrings?: {[string]: string},
     labelKey?: string,
     valueKey?: string,
@@ -92,6 +91,15 @@ class MultiSelect extends Component<Props> {
         </span>;
     }
 
+    filterOptions = (options: Array<any>, filter: string) => {
+        const optionIncludesText = (option: any) => {
+            const label = option[this.props.labelKey] || "";
+            return label.toLowerCase().includes(filter.toLowerCase());
+        };
+
+        return options.filter(optionIncludesText);
+    };
+
     handleSelectedChanged = (selected: Array<any>) => {
         const {onSelectedChanged, disabled} = this.props;
 
@@ -114,7 +122,6 @@ class MultiSelect extends Component<Props> {
             isLoading,
             disabled,
             disableSearch,
-            filterOptions,
             shouldToggleOnHover,
             hasSelectAll,
             overrideStrings,
@@ -139,7 +146,7 @@ class MultiSelect extends Component<Props> {
                     onSelectedChanged: this.handleSelectedChanged,
                     disabled,
                     disableSearch,
-                    filterOptions,
+                    filterOptions: this.filterOptions,
                     overrideStrings,
                     labelKey,
                     valueKey,

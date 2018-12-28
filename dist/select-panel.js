@@ -60,8 +60,7 @@ var SelectPanel = function (_Component) {
 
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = SelectPanel.__proto__ || Object.getPrototypeOf(SelectPanel)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
             searchHasFocus: false,
-            searchText: "",
-            focusIndex: 0
+            searchText: ""
         }, _this.selectAll = function () {
             var _this$props = _this.props,
                 onSelectedChanged = _this$props.onSelectedChanged,
@@ -95,23 +94,18 @@ var SelectPanel = function (_Component) {
             event.preventDefault();
 
             _this.setState({ searchText: "" });
+        }, _this.handleSearchFocus = function (searchHasFocus) {
+            _this.setState({
+                searchHasFocus: searchHasFocus
+            });
         }, _this.handleKeyDown = function (e) {
             switch (e.which) {
-                case 38:
-                    // Up Arrow
-                    if (e.altKey) {
-                        return;
-                    }
-
-                    _this.updateFocus(-1);
-                    break;
+                case 38: // Up Arrow
                 case 40:
                     // Down Arrow
                     if (e.altKey) {
                         return;
                     }
-
-                    _this.updateFocus(1);
                     break;
                 default:
                     return;
@@ -119,11 +113,6 @@ var SelectPanel = function (_Component) {
 
             e.stopPropagation();
             e.preventDefault();
-        }, _this.handleSearchFocus = function (searchHasFocus) {
-            _this.setState({
-                searchHasFocus: searchHasFocus,
-                focusIndex: -1
-            });
         }, _this.renderClearButton = function () {
             if (_this.props.clearable) {
                 return _react2.default.createElement(
@@ -159,19 +148,6 @@ var SelectPanel = function (_Component) {
 
 
             return customFilterOptions ? customFilterOptions(options, searchText) : (0, _fuzzyMatchUtils.filterOptions)(options, searchText);
-        }
-    }, {
-        key: 'updateFocus',
-        value: function updateFocus(offset) {
-            var focusIndex = this.state.focusIndex;
-            var options = this.props.options;
-
-
-            var newFocus = focusIndex + offset;
-            newFocus = Math.max(0, newFocus);
-            newFocus = Math.min(newFocus, options.length);
-
-            this.setState({ focusIndex: newFocus });
         }
     }, {
         key: 'render',
@@ -219,15 +195,11 @@ var SelectPanel = function (_Component) {
                         onFocus: function onFocus() {
                             return _this2.handleSearchFocus(true);
                         },
-                        onBlur: function onBlur() {
-                            return _this2.handleSearchFocus(false);
-                        },
                         value: searchText
                     }),
                     this.renderClearButton()
                 ),
                 hasSelectAll && _react2.default.createElement(_selectItem2.default, {
-                    focused: focusIndex === 0,
                     checked: this.allAreSelected(),
                     option: selectAllOption,
                     onSelectionChanged: this.selectAllChanged,
@@ -241,7 +213,6 @@ var SelectPanel = function (_Component) {
                 }),
                 _react2.default.createElement(_selectList2.default, _extends({}, this.props, {
                     options: this.filteredOptions(),
-                    focusIndex: focusIndex - 1,
                     onClick: function onClick(e, index) {
                         return _this2.handleItemClicked(index + 1);
                     },
@@ -263,10 +234,8 @@ var styles = {
     },
     search: {
         display: "inline-block",
-
         maxWidth: "100%",
         borderRadius: "3px",
-
         boxSizing: 'border-box',
         height: '30px',
         lineHeight: '24px',
@@ -284,7 +253,8 @@ var styles = {
         cursor: 'pointer'
     },
     searchFocused: {
-        borderColor: "#78c008"
+        borderColor: "#66afe9",
+        boxShadow: "inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6)"
     },
     searchContainer: {
         width: "100%",

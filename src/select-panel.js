@@ -40,7 +40,6 @@ class SelectPanel extends Component<Props, State> {
     state = {
         searchHasFocus: false,
         searchText: "",
-        focusIndex: 0,
     }
 
     selectAll = () => {
@@ -81,22 +80,19 @@ class SelectPanel extends Component<Props, State> {
         this.setState({searchText: ""});
     }
 
+    handleSearchFocus = (searchHasFocus: boolean) => {
+        this.setState({
+            searchHasFocus,
+        });
+    }
+
     handleKeyDown = (e: KeyboardEvent) => {
-        console.log(e.which)
         switch (e.which) {
             case 38: // Up Arrow
-                if (e.altKey) {
-                    return;
-                }
-
-                this.updateFocus(-1);
-                break;
             case 40: // Down Arrow
                 if (e.altKey) {
                     return;
                 }
-
-                this.updateFocus(1);
                 break;
             default:
                 return;
@@ -104,13 +100,6 @@ class SelectPanel extends Component<Props, State> {
 
         e.stopPropagation();
         e.preventDefault();
-    }
-
-    handleSearchFocus = (searchHasFocus: boolean) => {
-        this.setState({
-            searchHasFocus,
-            focusIndex: -1,
-        });
     }
 
     renderClearButton = () => {
@@ -138,17 +127,6 @@ class SelectPanel extends Component<Props, State> {
         return customFilterOptions ?
             customFilterOptions(options, searchText) :
             filterOptions(options, searchText);
-    }
-
-    updateFocus(offset: number) {
-        const {focusIndex} = this.state;
-        const {options} = this.props;
-
-        let newFocus = focusIndex + offset;
-        newFocus = Math.max(0, newFocus);
-        newFocus = Math.min(newFocus, options.length);
-
-        this.setState({focusIndex: newFocus});
     }
 
     render() {
@@ -186,7 +164,6 @@ class SelectPanel extends Component<Props, State> {
                     onChange={this.handleSearchChange}
                     style={{...styles.search, ...focusedSearchStyle}}
                     onFocus={() => this.handleSearchFocus(true)}
-                    onBlur={() => this.handleSearchFocus(false)}
                     value={searchText}
                 />
                 {this.renderClearButton()}
@@ -194,7 +171,6 @@ class SelectPanel extends Component<Props, State> {
 
             {hasSelectAll &&
               <SelectItem
-                  focused={focusIndex === 0}
                   checked={this.allAreSelected()}
                   option={selectAllOption}
                   onSelectionChanged={this.selectAllChanged}
@@ -209,7 +185,6 @@ class SelectPanel extends Component<Props, State> {
             <SelectList
                 {...this.props}
                 options={this.filteredOptions()}
-                focusIndex={focusIndex - 1}
                 onClick={(e, index) => this.handleItemClicked(index + 1)}
                 ItemRenderer={ItemRenderer}
                 disabled={disabled}
@@ -243,6 +218,10 @@ const styles = {
         backgroundColor: '#fff',
         border: '1px solid #ccc',
         cursor: 'pointer',
+    },
+    searchFocused: {
+        borderColor: "#66afe9",
+        boxShadow: "inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6)"
     },
     searchContainer: {
         width: "100%",

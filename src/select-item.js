@@ -44,7 +44,6 @@ type SelectItemProps = {
     ItemRenderer: Function,
     option: any,
     checked: boolean,
-    focused?: boolean,
     disabled?: boolean,
     labelKey: string,
     valueKey: string,
@@ -62,14 +61,6 @@ class SelectItem extends Component<SelectItemProps, SelectItemState> {
 
     state = {
         hovered: false,
-    }
-
-    componentDidMount() {
-        this.updateFocus();
-    }
-
-    componentDidUpdate() {
-        this.updateFocus();
     }
 
     itemRef: ?HTMLElement
@@ -92,13 +83,6 @@ class SelectItem extends Component<SelectItemProps, SelectItemState> {
         onClick(e);
     }
 
-    updateFocus() {
-        const {focused} = this.props;
-
-        if (focused && this.itemRef) {
-            this.itemRef.focus();
-        }
-    }
 
     handleKeyDown = (e: KeyboardEvent) => {
         switch (e.which) {

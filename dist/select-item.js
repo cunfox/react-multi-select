@@ -120,26 +120,6 @@ var SelectItem = function (_Component2) {
     }
 
     _createClass(SelectItem, [{
-        key: "componentDidMount",
-        value: function componentDidMount() {
-            this.updateFocus();
-        }
-    }, {
-        key: "componentDidUpdate",
-        value: function componentDidUpdate() {
-            this.updateFocus();
-        }
-    }, {
-        key: "updateFocus",
-        value: function updateFocus() {
-            var focused = this.props.focused;
-
-
-            if (focused && this.itemRef) {
-                this.itemRef.focus();
-            }
-        }
-    }, {
         key: "render",
         value: function render() {
             var _this3 = this;

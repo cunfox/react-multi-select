@@ -74,16 +74,16 @@ var Dropdown = function (_Component) {
                     // Escape
                     _this.toggleExpanded(false);
                     break;
-                case 38:
-                    // Up Arrow
-                    _this.toggleExpanded(false);
-                    break;
+                case 38: // Up Arrow
                 case 13: // Enter Key
-                case 32: // Space
                 case 40:
                     // Down Arrow
-                    _this.toggleExpanded(true);
+                    _this.toggleExpanded(false);
                     break;
+                case 32:
+                    // Space
+                    _this.toggleExpanded(true);
+                    return;
                 default:
                     return;
             }
@@ -250,8 +250,6 @@ var Dropdown = function (_Component) {
 
     return Dropdown;
 }(_react.Component);
-
-var focusColor = '#78c008';
 
 var styles = {
     dropdownArrow: {

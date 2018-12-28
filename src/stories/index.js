@@ -209,17 +209,10 @@ class StudentItemRenderer extends Component<SIRProps> {
     }
 }
 
-const customFilter = (options: Array<any>, filter: string) => {
-    const optionIncludesText = (option: any) => {
-        const label = option.label || "";
-        return label.toLowerCase().includes(filter);
-    };
 
-    return options.filter(optionIncludesText);
-};
 
 storiesOf('MultiSelect', module)
-    .add('default view', () => <StatefulMultiSelect options={shortList} />)
+    .add('default view', () => <StatefulMultiSelect options={shortList}/>)
     .add('long list view', () => <StatefulMultiSelect options={longList} />)
     .add('United States', () => <StatefulMultiSelect options={statesList} />)
     .add('Custom Heading Renderer', () => <StatefulMultiSelect
@@ -248,10 +241,6 @@ storiesOf('MultiSelect', module)
         options={studentsList}
         selected={[students[1], students[2]]}
         disabled={true}
-    />)
-    .add('Custom Filter', () => <StatefulMultiSelect
-        options={studentsList}
-        filterOptions={customFilter}
     />)
     .add('Custom Strings', () => <StatefulMultiSelect
         options={studentsList}

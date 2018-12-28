@@ -73,7 +73,6 @@ var SelectList = function (_Component) {
                 ItemRenderer = _props.ItemRenderer,
                 options = _props.options,
                 selected = _props.selected,
-                focusIndex = _props.focusIndex,
                 onClick = _props.onClick,
                 disabled = _props.disabled,
                 labelKey = _props.labelKey,
@@ -88,7 +87,6 @@ var SelectList = function (_Component) {
                         key: o.hasOwnProperty("key") ? o.key : i
                     },
                     _react2.default.createElement(_selectItem2.default, {
-                        focused: focusIndex === i,
                         option: o,
                         onSelectionChanged: function onSelectionChanged(c) {
                             return _this2.handleSelectionChanged(o, c);

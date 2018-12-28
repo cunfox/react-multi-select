@@ -59,7 +59,14 @@ var MultiSelect = function (_Component) {
             args[_key] = arguments[_key];
         }
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = MultiSelect.__proto__ || Object.getPrototypeOf(MultiSelect)).call.apply(_ref, [this].concat(args))), _this), _this.handleSelectedChanged = function (selected) {
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = MultiSelect.__proto__ || Object.getPrototypeOf(MultiSelect)).call.apply(_ref, [this].concat(args))), _this), _this.filterOptions = function (options, filter) {
+            var optionIncludesText = function optionIncludesText(option) {
+                var label = option[_this.props.labelKey] || "";
+                return label.toLowerCase().includes(filter.toLowerCase());
+            };
+
+            return options.filter(optionIncludesText);
+        }, _this.handleSelectedChanged = function (selected) {
             var _this$props = _this.props,
                 onSelectedChanged = _this$props.onSelectedChanged,
                 disabled = _this$props.disabled;
@@ -145,7 +152,6 @@ var MultiSelect = function (_Component) {
                 isLoading = _props3.isLoading,
                 disabled = _props3.disabled,
                 disableSearch = _props3.disableSearch,
-                filterOptions = _props3.filterOptions,
                 shouldToggleOnHover = _props3.shouldToggleOnHover,
                 hasSelectAll = _props3.hasSelectAll,
                 overrideStrings = _props3.overrideStrings,
@@ -174,7 +180,7 @@ var MultiSelect = function (_Component) {
                             onSelectedChanged: this.handleSelectedChanged,
                             disabled: disabled,
                             disableSearch: disableSearch,
-                            filterOptions: filterOptions,
+                            filterOptions: this.filterOptions,
                             overrideStrings: overrideStrings,
                             labelKey: labelKey,
                             valueKey: valueKey
