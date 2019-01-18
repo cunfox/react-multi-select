@@ -1762,7 +1762,7 @@ var SelectList = function (_Component) {
                         onSelectionChanged: function onSelectionChanged(c) {
                             return _this2.handleSelectionChanged(o, c);
                         },
-                        checked: selected.includes(o[valueKey] || o.value),
+                        checked: selected.includes(o[valueKey]),
                         onClick: function (_onClick) {
                             function onClick(_x) {
                                 return _onClick.apply(this, arguments);

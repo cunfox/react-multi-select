@@ -252,7 +252,7 @@ storiesOf('MultiSelect', module)
         }}
     />)
     .add('Custom Label Name', () => <StatefulMultiSelect
-        options={[{id: 1, name: "test"}, {id: 2, name: "test2"}, {id: 3, name: "test3"}]}
+        options={[{id: 0, name: "test"}, {id: 2, name: "test2"}, {id: 3, name: "test3"}]}
         labelKey="name"
         valueKey="id"
     />)

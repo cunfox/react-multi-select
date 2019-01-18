@@ -48,6 +48,7 @@ class SelectList extends Component<Props> {
             valueKey,
         } = this.props;
 
+
         return options.map((o, i) =>
             <li
                 style={styles.listItem}
@@ -56,7 +57,7 @@ class SelectList extends Component<Props> {
                 <SelectItem
                     option={o}
                     onSelectionChanged={c => this.handleSelectionChanged(o, c)}
-                    checked={selected.includes((o[valueKey] || o.value))}
+                    checked={selected.includes(o[valueKey])}
                     onClick={e => onClick(e, i)}
                     ItemRenderer={ItemRenderer}
                     disabled={disabled}
